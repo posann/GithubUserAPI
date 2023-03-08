@@ -66,13 +66,13 @@ class DetailUserActivity : AppCompatActivity() {
 
         binding.tvDetailName.text = detailUser.name
         binding.tvDetailUsername.text = detailUser.login
-        binding.tvDetailLocation.text = detailUser.location
+        binding.tvDetailLocation.text = detailUser.location ?: "[lokasi tidak tersedia]"
 
         binding.tvDetailFollower.text = "${detailUser.followers.toString()} follower"
         binding.tvDetailFollowing.text = "${detailUser.following.toString()} following"
         binding.tvDetailRepositories.text = "${detailUser.publicRepos.toString()} repositories"
-        val company = detailUser.company ?: "Compani Tidak Tersedia"
-        val bios = detailUser.bio ?: "Bio Tidak Tersedia"
+        val company = detailUser.company ?: "[perusahaan tidak tersedia]"
+        val bios = detailUser.bio ?: "[bio tidak tersedia]"
         binding.tvDetailCompany.text = company
         binding.tvDetailBio.text = bios as CharSequence?
     }
