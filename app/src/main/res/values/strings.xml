@@ -20,4 +20,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="add_favorite">Add Favorite</string>
     <string name="repository">repository</string>
+    <string name="favorite">Favorite</string>
 </resources>
