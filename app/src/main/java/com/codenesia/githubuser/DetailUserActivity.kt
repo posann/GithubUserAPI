@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.codenesia.githubuser.data.DetailUserResponse
+import com.codenesia.githubuser.database.Favorite
 import com.codenesia.githubuser.databinding.ActivityDetailUserBinding
+import com.codenesia.githubuser.helper.FavoriteViewModelFactory
+import com.codenesia.githubuser.ui.FavoriteUpdateViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -20,13 +23,21 @@ class DetailUserActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var sectionPager: SectionPager
 
+    private var favorite: Favorite = Favorite()
+    private lateinit var favoriteUpdateViewModel: FavoriteUpdateViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        favoriteUpdateViewModel = obtainViewModel(this@DetailUserActivity)
+
+
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
         sectionPager = SectionPager(this)
+
+
         val viewPager : ViewPager2 = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPager
         val tabs : TabLayout = findViewById(R.id.tabs)
@@ -34,17 +45,30 @@ class DetailUserActivity : AppCompatActivity() {
             tab.text = resources.getString(TAB_TITLE[position])
         }.attach()
 
+        user = intent.getStringExtra(USERNAME).toString()
+
         supportActionBar?.elevation = 0f
-        supportActionBar?.title = resources.getString(R.string.detail_user)
+        supportActionBar?.title = user
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        user = intent.getStringExtra(USERNAME).toString()
         showDetailUser(user)
-
     }
 
+    private fun addFavorites(user: DetailUserResponse) {
+        val userfav = user.login.toString().trim()
+        val urlImage = user.avatarUrl.toString().trim()
 
+        binding.btnDetailAdd.setOnClickListener {
+            favorite.let { favorite ->
+                favorite.username = userfav
+                favorite.urlImage = urlImage
+            }
+
+            favoriteUpdateViewModel.insert(favorite)
+        }
+
+    }
 
 
     private fun showDetailUser(username: String) {
@@ -52,6 +76,7 @@ class DetailUserActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this) { showLoading(it) }
         viewModel.userDetail.observe(this) { detailUser ->
             setDetailUser(detailUser)
+            addFavorites(detailUser)
         }
 
         sectionPager.username = username
@@ -66,16 +91,21 @@ class DetailUserActivity : AppCompatActivity() {
 
         binding.tvDetailName.text = detailUser.name
         binding.tvDetailUsername.text = detailUser.login
-        binding.tvDetailLocation.text = detailUser.location ?: "[lokasi tidak tersedia]"
+        binding.tvDetailLocation.text = detailUser.location ?: "[Lokasi Tidak Tersedia]"
 
-        binding.tvDetailFollower.text = "${detailUser.followers.toString()} follower"
-        binding.tvDetailFollowing.text = "${detailUser.following.toString()} following"
-        binding.tvDetailRepositories.text = "${detailUser.publicRepos.toString()} repositories"
-        val company = detailUser.company ?: "[perusahaan tidak tersedia]"
-        val bios = detailUser.bio ?: "[bio tidak tersedia]"
-        binding.tvDetailCompany.text = company
-        binding.tvDetailBio.text = bios as CharSequence?
+        binding.tvDetailFollower.text = "${detailUser.followers.toString()} Follower"
+        binding.tvDetailFollowing.text = "${detailUser.following.toString()} Following"
+        binding.tvDetailRepositories.text = "${detailUser.publicRepos.toString()} Repositories"
+        binding.tvDetailBio.text = (detailUser.bio ?: "[Bio Tidak Tersedia]") as CharSequence?
+
+
     }
+
+    private fun obtainViewModel(activity: AppCompatActivity): FavoriteUpdateViewModel {
+        val factory = FavoriteViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[FavoriteUpdateViewModel::class.java]
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {

@@ -14,23 +14,25 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:id="@+id/img_avatar"
+            android:id="@+id/img_favorite_avatar"
             android:padding="10dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="0"
             android:scaleType="centerCrop"
             android:layout_margin="5dp"
-            tools:src="@tools:sample/avatars"/>
+            tools:src="@tools:sample/avatars"
+            android:contentDescription="@string/avatar" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:padding="10dp"
-            android:layout_marginEnd="20dp"
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tv_username"
+                android:id="@+id/tv_favorite_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -38,18 +40,9 @@
                 android:text="@string/username"
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/tv_url"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:letterSpacing="0.15"
-                android:layout_gravity="center_vertical"
-                android:text="@string/username"
-                android:textColor="@color/linen"
-                android:textSize="13sp"/>
         </LinearLayout>
-
     </LinearLayout>
+
 
 
 </androidx.cardview.widget.CardView>

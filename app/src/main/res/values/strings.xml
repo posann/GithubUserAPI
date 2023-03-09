@@ -21,4 +21,7 @@
     <string name="add_favorite">Add Favorite</string>
     <string name="repository">repository</string>
     <string name="favorite">Favorite</string>
+    <string name="submit">Add Favorite</string>
+    <string name="delete">delete</string>
+    <string name="avatar">avatar</string>
 </resources>

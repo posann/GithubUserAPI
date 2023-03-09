@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codenesia.githubuser.databinding.ActivityMainBinding
+import com.codenesia.githubuser.ui.FavoriteActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -73,7 +74,6 @@ class MainActivity : AppCompatActivity() {
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
-
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint = resources.getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -91,6 +91,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.favorite_item -> {
+                val i = Intent(this, FavoriteActivity::class.java)
+                startActivity(i)
+                return true
+            } else -> return true
+        }
     }
 
 }
