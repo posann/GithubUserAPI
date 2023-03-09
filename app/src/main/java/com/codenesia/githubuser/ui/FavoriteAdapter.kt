@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.codenesia.githubuser.ItemsUser
+import com.codenesia.githubuser.UserAdapter
 import com.codenesia.githubuser.database.Favorite
 import com.codenesia.githubuser.databinding.ItemFavoriteBinding
 import com.codenesia.githubuser.helper.DiffFavCallback
@@ -12,7 +14,8 @@ import com.codenesia.githubuser.helper.DiffFavCallback
 class FavoriteAdapter: RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     private val listFavorites = ArrayList<Favorite>()
-    private lateinit var favoriteUpdateViewModel: FavoriteUpdateViewModel
+    private lateinit var onItemClickCallback: FavoriteAdapter.OnItemClickCallback
+
 
 
     fun setListFavorites(listFavorites : List<Favorite>) {
@@ -46,9 +49,18 @@ class FavoriteAdapter: RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>(
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         holder.bind(listFavorites[position])
+        holder.itemView.setOnClickListener{
+            onItemClickCallback.onItemClicked(
+                listFavorites[position]
+            )
+        }
     }
 
-    fun setOnClickCallback(favList: List<Favorite>) {
+    fun setOnItemClick(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
 
+    fun interface OnItemClickCallback {
+        fun onItemClicked(data: Favorite)
     }
 }

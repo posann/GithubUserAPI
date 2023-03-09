@@ -102,5 +102,10 @@ class MainActivity : AppCompatActivity() {
             } else -> return true
         }
     }
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+
 
 }

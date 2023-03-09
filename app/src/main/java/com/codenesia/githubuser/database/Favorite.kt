@@ -9,12 +9,9 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class Favorite (
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    var id: Int = 0,
-
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "username")
-    var username : String? = null,
+    var username : String = "",
 
     @ColumnInfo(name = "urlImage")
     var urlImage : String? = null

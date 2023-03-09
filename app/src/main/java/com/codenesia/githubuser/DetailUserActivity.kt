@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.viewpager2.widget.ViewPager2
@@ -53,32 +54,52 @@ class DetailUserActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         showDetailUser(user)
+
+        viewModel.userDetail.observe(this) { detailUser ->
+            setDetailUser(detailUser)
+            addFavorites(detailUser)
+        }
     }
 
     private fun addFavorites(user: DetailUserResponse) {
         val userfav = user.login.toString().trim()
         val urlImage = user.avatarUrl.toString().trim()
-
-        binding.btnDetailAdd.setOnClickListener {
-            favorite.let { favorite ->
-                favorite.username = userfav
-                favorite.urlImage = urlImage
+        favoriteUpdateViewModel.getFavoriteUserByUsername(userfav).observe(this) { fav ->
+            if (fav != null && fav.username == userfav) {
+                binding.btnDetailAdd.text = getString(R.string.buttonIsFavorite)
+                binding.btnDetailAdd.setOnClickListener {
+                    favorite.let { favorite ->
+                        favorite.username = userfav
+                        favorite.urlImage = urlImage
+                    }
+                    favoriteUpdateViewModel.delete(favorite)
+                    showToast("Data " + favorite.username + " telah dihapus")
+                    finish()
+                }
+            } else {
+                binding.btnDetailAdd.text = getString(R.string.buttonFavorite)
+                binding.btnDetailAdd.setOnClickListener {
+                    favorite.let { favorite ->
+                        favorite.username = userfav
+                        favorite.urlImage = urlImage
+                    }
+                    favoriteUpdateViewModel.insert(favorite)
+                    showToast("Data telah ditambahkan")
+                    finish()
+                }
             }
-
-            favoriteUpdateViewModel.insert(favorite)
         }
 
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
 
     private fun showDetailUser(username: String) {
         viewModel.getDetail(username)
         viewModel.isLoading.observe(this) { showLoading(it) }
-        viewModel.userDetail.observe(this) { detailUser ->
-            setDetailUser(detailUser)
-            addFavorites(detailUser)
-        }
-
         sectionPager.username = username
     }
 
@@ -97,7 +118,6 @@ class DetailUserActivity : AppCompatActivity() {
         binding.tvDetailFollowing.text = "${detailUser.following.toString()} Following"
         binding.tvDetailRepositories.text = "${detailUser.publicRepos.toString()} Repositories"
         binding.tvDetailBio.text = (detailUser.bio ?: "[Bio Tidak Tersedia]") as CharSequence?
-
 
     }
 
@@ -127,5 +147,9 @@ class DetailUserActivity : AppCompatActivity() {
             R.string.followers,
             R.string.following,
         )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
