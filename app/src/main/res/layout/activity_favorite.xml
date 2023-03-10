@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/slate_gray"
+    android:theme="@style/Theme.GithubUser"
+    android:background="@color/material_on_primary_emphasis_high_type"
     android:orientation="vertical"
     tools:context=".ui.FavoriteActivity">
     <FrameLayout
@@ -38,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
-        android:background="@color/slate_gray"
+        android:background="?attr/colorPrimary"
         android:scrollbarSize="0dp"
         />
 </LinearLayout>

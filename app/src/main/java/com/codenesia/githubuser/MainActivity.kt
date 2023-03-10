@@ -9,13 +9,20 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codenesia.githubuser.databinding.ActivityMainBinding
 import com.codenesia.githubuser.ui.FavoriteActivity
+import com.codenesia.githubuser.ui.setting.*
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,9 +36,26 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
 
+        val pref = SettingPreferences.getInstance(dataStore)
+
+        showThemeData(pref)
         showAdapterData()
         showViewModel()
 
+    }
+
+    private fun showThemeData(pref: SettingPreferences) {
+        val settingViewModel = ViewModelProvider(this, SettingViewModelFactory(pref)).get(
+            SettingViewModel::class.java
+        )
+        settingViewModel.getThemeSettings().observe(this) {
+                isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
     }
 
     private fun showViewModel() {
@@ -94,12 +118,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.favorite_item -> {
                 val i = Intent(this, FavoriteActivity::class.java)
                 startActivity(i)
-                return true
-            } else -> return true
+                true
+            }
+
+            R.id.setting_item -> {
+                val i = Intent(this, SettingActivity::class.java)
+                startActivity(i)
+                true
+            }
+            else -> true
         }
     }
     override fun onDestroy() {

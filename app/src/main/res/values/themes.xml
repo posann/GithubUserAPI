@@ -2,14 +2,15 @@
     <!-- Base application theme. -->
     <style name="Theme.GithubUser" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/gray</item>
-        <item name="colorPrimaryVariant">@color/slate_gray</item>
-        <item name="colorOnPrimary">@color/gray</item>
+        <item name="colorPrimary">@color/light2</item>
+        <item name="colorPrimaryVariant">@color/light1</item>
+        <item name="colorOnPrimary">@color/light2</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/gray</item>
-        <item name="android:navigationBarColor">@color/gray</item>
+        <item name="android:statusBarColor">@color/light2</item>
+        <item name="android:navigationBarColor">@color/light2</item>
         <!-- Customize your theme here. -->
+
     </style>
 
     <style name="ThemeOverlay.GithubUser.FullscreenContainer" parent="">

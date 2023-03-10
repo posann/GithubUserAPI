@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.GithubUser"
+    android:background="@color/material_on_primary_emphasis_high_type"
     android:orientation="vertical"
-    android:background="@color/slate_gray"
     tools:context=".MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:background="@color/slate_gray"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_container" />
 
@@ -39,7 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
-        android:background="@color/slate_gray"
         android:scrollbarSize="0dp"
         />
 

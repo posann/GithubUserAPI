@@ -27,4 +27,7 @@
 
     <string name="buttonIsFavorite">Hapus Favorite</string>
     <string name="buttonFavorite">Tambahkan Favorite</string>
+
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="setting">Setting</string>
 </resources>

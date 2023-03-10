@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gray">#011638</color>
+    <color name="gray">#03043B</color>
     <color name="slate_gray">#141414</color>
     <color name="linen">#F5F5F5</color>
     <color name="black">#000000</color>
@@ -10,4 +10,7 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+
+    <color name="light1">#53B3CB</color>
+    <color name="light2">#4D7EA8</color>
 </resources>
