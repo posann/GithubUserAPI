@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codenesia.githubuser.FollowAdapter
 import com.codenesia.githubuser.MainViewModel
-import com.codenesia.githubuser.UserAdapter
 import com.codenesia.githubuser.data.FollowResponseItem
 import com.codenesia.githubuser.databinding.FragmentFollowBinding
 
@@ -42,55 +41,62 @@ class FollowFragment : Fragment() {
             username = it.getString(ARG_USERNAME)!!
         }
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        viewModel.isLoading.observe(requireActivity()) { showLoading(it) }
         if (position == 1) {
             showFollowing(username)
         } else {
             showFollower(username)
-
         }
         showAdapterFollower()
-
-
     }
 
     private fun showAdapterFollower() {
-        val layoutManager = LinearLayoutManager(activity)
+        val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvFollowerData.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(activity, layoutManager.orientation)
+        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
         binding.rvFollowerData.addItemDecoration(itemDecoration)
+
     }
 
     private fun showFollower(username: String) {
         viewModel.getDetailFollower(username)
         viewModel.listFollower.observe(viewLifecycleOwner) { follow ->
-            if (follow.size != 0) {
-                setFollower(follow)
-            } else {
-                Toast.makeText(context, "Followers Not Found", Toast.LENGTH_SHORT).show()
+            if (follow != null) {
+                if (follow.isNotEmpty()) {
+                    setFollower(follow)
+                }
             }
         }
-        viewModel.isLoading.observe(viewLifecycleOwner) { showLoading(it) }
+    }
+
+    private fun showFollowing(username: String) {
+        viewModel.getDetailFollowing(username)
+        viewModel.listFollowing.observe(viewLifecycleOwner) { follow ->
+            if (follow != null) {
+                if (follow.isNotEmpty()) {
+                    setFollowing(follow)
+                }
+            }
+        }
+
     }
 
     private fun setFollower(follow: ArrayList<FollowResponseItem>) {
         val adapter = FollowAdapter(follow)
         binding.rvFollowerData.adapter = adapter
-
     }
 
-
-    private fun showFollowing(username: String) {
-        viewModel.getDetailFollowing(username)
-        viewModel.listFollower.observe(viewLifecycleOwner) { follow ->
-            if (follow.size != 0) {
-                setFollower(follow)
-            } else {
-                Toast.makeText(context, "Followers Not Found", Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.isLoading.observe(viewLifecycleOwner) { showLoading(it) }
+    private fun setFollowing(follow: ArrayList<FollowResponseItem>) {
+        val adapter = FollowAdapter(follow)
+        binding.rvFollowerData.setHasFixedSize(false)
+        binding.rvFollowerData.adapter = adapter
     }
+
+    private fun showLoading(isLoading: Boolean?) {
+        binding.progressBar.visibility = if (isLoading == true) View.VISIBLE else View.GONE
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,10 +104,6 @@ class FollowFragment : Fragment() {
     ): View {
         _binding = FragmentFollowBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    private fun showLoading(isLoading: Boolean?) {
-        binding.progressBar.visibility = if (isLoading == true) View.VISIBLE else View.GONE
     }
 
     companion object {

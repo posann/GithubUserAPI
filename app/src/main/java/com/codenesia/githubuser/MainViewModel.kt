@@ -18,12 +18,14 @@ class MainViewModel: ViewModel() {
     private val _userDetail = MutableLiveData<DetailUserResponse>()
     val userDetail: LiveData<DetailUserResponse> = _userDetail
 
-    private val _listFollower = MutableLiveData<ArrayList<FollowResponseItem>>()
-    val listFollower : LiveData<ArrayList<FollowResponseItem>> = _listFollower
+    private val _listFollower = MutableLiveData<ArrayList<FollowResponseItem>?>()
+    val listFollower : LiveData<ArrayList<FollowResponseItem>?> = _listFollower
+
+    private val _listFollowing = MutableLiveData<ArrayList<FollowResponseItem>?>()
+    val listFollowing : LiveData<ArrayList<FollowResponseItem>?> = _listFollowing
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
 
     companion object {
         private const val TAG = "MainViewModel"
@@ -73,7 +75,6 @@ class MainViewModel: ViewModel() {
                 }
 
                 override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
-                    _isLoading.value = false
                     Log.e(TAG, "onFailure: ${t.message.toString()}")
                 }
 
@@ -125,7 +126,7 @@ class MainViewModel: ViewModel() {
                     val responseBody = response.body()
                     if (response.isSuccessful) {
                         if (responseBody != null) {
-                            _listFollower.value = responseBody!!
+                            _listFollowing.value = responseBody!!
                         }
                     }
                 }

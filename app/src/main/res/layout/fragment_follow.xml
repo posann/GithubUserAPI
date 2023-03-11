@@ -2,11 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".fragment.FollowFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -18,16 +17,13 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFollowerData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="ifContentScrolls"
+        android:overScrollMode="always"
         android:background="?attr/colorPrimary"
         android:scrollbarSize="0dp"
         />
-
-
 
 </FrameLayout>

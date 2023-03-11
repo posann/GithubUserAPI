@@ -39,6 +39,8 @@ class DetailUserActivity : AppCompatActivity() {
         sectionPager = SectionPager(this)
 
 
+        binding.detailProgressBar.visibility = View.VISIBLE
+
         val viewPager : ViewPager2 = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPager
         val tabs : TabLayout = findViewById(R.id.tabs)
@@ -99,8 +101,8 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun showDetailUser(username: String) {
         viewModel.getDetail(username)
-        viewModel.isLoading.observe(this) { showLoading(it) }
         sectionPager.username = username
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -118,6 +120,7 @@ class DetailUserActivity : AppCompatActivity() {
         binding.tvDetailFollowing.text = "${detailUser.following.toString()} Following"
         binding.tvDetailRepositories.text = "${detailUser.publicRepos.toString()} Repositories"
         binding.tvDetailBio.text = (detailUser.bio ?: "[Bio Tidak Tersedia]") as CharSequence?
+        binding.detailProgressBar.visibility = View.GONE
 
     }
 
@@ -136,7 +139,7 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) =
-        binding.progressBar.visibility == if (isLoading) View.VISIBLE else View.GONE
+        binding.detailProgressBar.visibility == if (isLoading) View.VISIBLE else View.GONE
 
 
     companion object {

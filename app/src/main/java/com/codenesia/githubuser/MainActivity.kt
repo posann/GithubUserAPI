@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setDataUser(user: ArrayList<ItemsUser>) {
         val adapter = UserAdapter(user)
-        binding.rvUserData.setHasFixedSize(true)
+        binding.rvUserData.setHasFixedSize(false)
         binding.rvUserData.adapter = adapter
         adapter.setOnItemClick { data -> selectedUser(data) }
     }

@@ -14,7 +14,9 @@ class SectionPager(activity: AppCompatActivity) : FragmentStateAdapter(activity)
     }
 
     override fun createFragment(position: Int): Fragment {
+
         val fragment = FollowFragment.newInstance(position, username)
+
         return fragment
     }
 

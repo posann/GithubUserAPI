@@ -20,12 +20,12 @@ interface ApiService {
         @Path("username") username: String
     ) : Call<DetailUserResponse>
 
-    @GET("users/{username}/followers")
+    @GET("users/{username}/followers?per_page=100")
     fun getFollower(
         @Path("username") username: String
     ) : Call<ArrayList<FollowResponseItem>>
 
-    @GET("users/{username}/following")
+    @GET("users/{username}/following?per_page=100")
     fun getFollowing(
         @Path("username") username: String
     ) : Call<ArrayList<FollowResponseItem>>
