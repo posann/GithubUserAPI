@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     private fun showViewModel() {
         viewModel.listUser.observe(this) { user -> setDataUser(user) }
         viewModel.isLoading.observe(this) { showLoading(it) }
-        viewModel.searchUser("Ahmad Fauzan")
+        viewModel.searchUser("dicoding")
     }
 
     private fun showAdapterData() {

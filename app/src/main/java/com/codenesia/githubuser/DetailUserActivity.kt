@@ -24,6 +24,8 @@ class DetailUserActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var sectionPager: SectionPager
 
+    private lateinit var detailViewModel: DetailUserViewModel
+
     private var favorite: Favorite = Favorite()
     private lateinit var favoriteUpdateViewModel: FavoriteUpdateViewModel
 

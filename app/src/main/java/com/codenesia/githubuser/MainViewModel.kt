@@ -42,6 +42,7 @@ class MainViewModel: ViewModel() {
                 ) {
                     _isLoading.value = false
                     val responseBody = response.body()
+                    Log.e("Contoh", "List Data User : ${responseBody.toString()}")
                     if (response.isSuccessful && responseBody != null) {
                         _listUser.value = ArrayList(responseBody.items)
                     } else {
